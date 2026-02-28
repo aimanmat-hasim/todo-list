@@ -1,75 +1,58 @@
-# React + TypeScript + Vite
+# Todo List ✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript Todo List app with animated UI effects, glassmorphism styling, and interactive task controls.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- Add tasks by typing and pressing **Enter**
+- Delete tasks
+- Reorder tasks (**Up / Down**)
+- Animated task text rendering (`SplitText`)
+- Glass-style task container (`GlassSurface`)
+- Animated light-ray background (`LightRays`)
+- Interactive glare hover effect on action buttons (`GlareHover`)
+- Performance-friendly task rendering with `memo` + stable handlers
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+---
 
-Note: This will impact Vite dev & build performances.
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **React 19**
+- **TypeScript**
+- **Vite**
+- **GSAP** (text animation)
+- **OGL/WebGL** (light rays effect)
+- **CSS** (custom UI/effects styling)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Architecture
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Entry
+- `src/main.tsx` mounts app
+- `src/App.tsx` renders `ToDoList`
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Main Feature
+- `src/todolist.tsx`
+  - Holds task state and task operations (`add`, `delete`, `move up/down`)
+  - Uses React hooks: `useState`, `useRef`, `useEffect`, `useCallback`
+  - Uses `memo` for `TaskRow` to reduce unnecessary re-renders
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Reusable Visual Components
+- `src/SplitText.tsx` — task text animation
+- `src/GlareHover.tsx` + `GlareHover.css` — button glare effect
+- `src/GlassSurface.tsx` + `GlassSurface.css` — glass container effect
+- `src/LightRays.tsx` + `LightRays.css` — WebGL background rays
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Styling
+- `src/index.css` manages global layout, typography, button styles, and responsive behavior
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## Run Locally
+
+```bash
+npm install
+npm run dev
